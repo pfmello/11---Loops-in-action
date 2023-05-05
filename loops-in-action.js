@@ -58,34 +58,45 @@ const diceRollButton = document.querySelector("#statistics button");
 diceRollButton.addEventListener("click", calculateDiceRolls);
 
 function calculateDiceRolls() {
-  const inputElement = document.querySelector("#statistics input");
-  const targetNumber = inputElement.value;
+  const targetNumberInputElement =
+    document.getElementById("user-target-number");
+  const targetNumber = targetNumberInputElement.value;
+
+  const diceRollsListElement = document.getElementById("dice-rolls");
+  diceRollsListElement.innerHTML = "";
 
   if (targetNumber < 1 || targetNumber > 6) {
     alert("invalid number");
     return;
   }
 
-  let inLoop = true;
-  let howManyTries = 1;
+  let howManyTries = diceRollLoop(targetNumber, diceRollsListElement);
 
-  while (inLoop) {
-    let random = getRandomNumber(1, 6);
-    let intRandom = Math.round(random);
-
-    if (intRandom == Number(targetNumber)) {
-      inLoop = false;
-    } else {
-      howManyTries++;
-    }
-  }
-  console.log("it took " + howManyTries + " tries");
-
-  let totalRollsElement = document.getElementById("output-total-rolls");
-  let targetNumberElement = document.getElementById("output-target-number");
+  const totalRollsElement = document.getElementById("output-total-rolls");
+  const targetNumberElement = document.getElementById("output-target-number");
 
   totalRollsElement.textContent = howManyTries;
   targetNumberElement.textContent = targetNumber;
+}
+
+function diceRollLoop(targetNumber, list) {
+  let rolledTargetNumber = false;
+  let numberOfRolls = 0;
+
+  while (!rolledTargetNumber) {
+    const random = getRandomNumber(1, 6);
+    let randomNumber = Math.round(random);
+
+    numberOfRolls++;
+    const newRollListElement = document.createElement("li");
+    const outputText = "Roll " + numberOfRolls + " => " + randomNumber;
+    newRollListElement.textContent = outputText;
+    list.append(newRollListElement);
+
+    rolledTargetNumber = randomNumber == +targetNumber;
+  }
+
+  return numberOfRolls;
 }
 
 function getRandomNumber(min, max) {
