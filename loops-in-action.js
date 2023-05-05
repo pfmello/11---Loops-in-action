@@ -1,23 +1,17 @@
-// First Ecample: Sum numbers
-let userInput = document.getElementById("user-number");
+// First Example: Sum numbers
+const calculateSumButton = document.querySelector("#sum-btn");
+calculateSumButton.addEventListener("click", calculateSum);
 
-let calculateSumButton = document.querySelector("#sum-btn");
-calculateSumButton.addEventListener("click", sumButtonClick);
+function calculateSum() {
+  const userNumberElement = document.getElementById("user-number");
+  const inputNumber = userNumberElement.value;
 
-function sumButtonClick() {
-  let inputNumber = userInput.value;
-  console.log("usuario digitou" + inputNumber);
-
-  let paragraphCalculatedSum = document.querySelector("#calculated-sum");
-  paragraphCalculatedSum.textContent = calculateSum(Number(inputNumber));
-  paragraphCalculatedSum.style.display = "block";
-}
-
-function calculateSum(value) {
   let sum = 0;
-  for (let i = value; i > 0; i--) {
+  for (let i = 0; i <= inputNumber; i++) {
     sum += i;
   }
 
-  return sum;
+  const outputResultElement = document.querySelector("#calculated-sum");
+  outputResultElement.textContent = sum;
+  outputResultElement.style.display = "block";
 }
